@@ -20,7 +20,13 @@ while (running) {
     System.out.println("5. Exit");
     System.out.print("Choose an option: ");
 
-    int choice = scanner.nextInt();
+    int choice;
+    try {
+        choice = Integer.parseInt(scanner.nextLine()); // Use nextLine to avoid leftover newline
+    } catch (Exception e) {
+        System.out.println("Invalid input.");
+        continue;
+    }
 
     switch (choice) {
         case 1:
