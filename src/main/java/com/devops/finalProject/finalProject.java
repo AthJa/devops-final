@@ -20,9 +20,10 @@ while (running) {
     System.out.println("5. Exit");
     System.out.print("Choose an option: ");
 
-    int choice;
+    int choice=-1;
     try {
-        choice = Integer.parseInt(scanner.nextLine()); // Use nextLine to avoid leftover newline
+        choice = Integer.parseInt(scanner.nextLine());
+        System.out.println(choice);
     } catch (Exception e) {
         System.out.println("Invalid input.");
         continue;
