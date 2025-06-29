@@ -25,7 +25,5 @@
       shell: java -jar "{{ jar_dest }}" 1 0 2 32 3 27 4 273 5
       args:
         chdir: /opt/devops-final
-    - name: Run the Java application
-      command: java -jar /home/atharva/Desktop/final-project-repo/devops-final/target/finalProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar 1 100 5
       ignore_errors: yes
 
