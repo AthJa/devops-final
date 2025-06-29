@@ -1,13 +1,27 @@
 ---
-- name: Deploy Final Java App
+- name: Deploy DevOps Final Project
   hosts: localhost
-  become: yes
+  become: true
+
+  vars:
+    jar_source: "{{ playbook_dir }}/../target/finalProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar"
+    jar_dest: /opt/devops-final/app.jar
+
   tasks:
-    - name: Copy built jar to deployment folder
+    - name: Ensure target directory exists
+      file:
+        path: /opt/devops-final
+        state: directory
+        owner: "{{ ansible_user | default('root') }}"
+        mode: '0755'
+
+    - name: Copy JAR to target location
       copy:
-        src: ../target/finalProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-        dest: /opt/devops-final/app.jar
+        src: "{{ jar_source }}"
+        dest: "{{ jar_dest }}"
         mode: '0755'
 
     - name: Run the Java application
-      command: java -jar /opt/devops-final/app.jar
+      shell: java -jar "{{ jar_dest }}" 1 0 2 32 3 27 4 273 5
+      args:
+        chdir: /opt/devops-final
