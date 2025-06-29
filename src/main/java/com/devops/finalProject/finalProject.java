@@ -1,12 +1,15 @@
 package com.devops.finalProject;
+
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
+import com.devops.finalProject.MetricsSetup;
 
 public class finalProject {
     static final Logger logger = Logger.getLogger(finalProject.class);
 
     public static void main(String[] args) {
         BasicConfigurator.configure();
+        MetricsSetup.start(); // Start reporting to Graphite
 
         if (args.length == 0 || args.length % 2 != 0) {
             System.out.println("Usage: <option1> <value1> <option2> <value2> ...");
@@ -24,7 +27,7 @@ public class finalProject {
             try {
                 choice = Integer.parseInt(args[i]);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid option: " + args[i]);
+                logger.warn("Invalid option: " + args[i]);
                 continue;
             }
 
@@ -37,25 +40,29 @@ public class finalProject {
             try {
                 inputValue = Double.parseDouble(args[i + 1]);
             } catch (NumberFormatException e) {
-                System.out.println("Invalid number: " + args[i + 1]);
+                logger.warn("Invalid number: " + args[i + 1]);
                 continue;
             }
 
             switch (choice) {
                 case 1:
                     System.out.println(inputValue + "°C = " + celsiusToFahrenheit(inputValue) + "°F");
+                    MetricsSetup.conversionCounter.inc();
                     break;
                 case 2:
                     System.out.println(inputValue + "°F = " + fahrenheitToCelsius(inputValue) + "°C");
+                    MetricsSetup.conversionCounter.inc();
                     break;
                 case 3:
                     System.out.println(inputValue + "°C = " + celsiusToKelvin(inputValue) + "K");
+                    MetricsSetup.conversionCounter.inc();
                     break;
                 case 4:
                     System.out.println(inputValue + "K = " + kelvinToCelsius(inputValue) + "°C");
+                    MetricsSetup.conversionCounter.inc();
                     break;
                 default:
-                    System.out.println("Invalid choice: " + choice);
+                    logger.warn("Invalid choice: " + choice);
             }
         }
     }
