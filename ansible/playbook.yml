@@ -1,0 +1,13 @@
+---
+- name: Deploy Final Java App
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: Copy built jar to deployment folder
+      copy:
+        src: ../target/finalProject-0.0.1-SNAPSHOT-jar-with-dependencies.jar
+        dest: /opt/devops-final/app.jar
+        mode: '0755'
+
+    - name: Run the Java application
+      command: java -jar /opt/devops-final/app.jar
